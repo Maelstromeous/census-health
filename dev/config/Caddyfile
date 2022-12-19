@@ -11,3 +11,8 @@ prometheus.localhost {
         reverse_proxy prometheus:9090
         tls internal
 }
+
+exporter.localhost {
+        reverse_proxy exporter:3001
+        tls internal
+}
