@@ -27,9 +27,17 @@ services:
   prometheus-config-reloader:
     image: ghcr.io/prometheus-operator/prometheus-config-reloader:main
     container_name: prometheus_config_reloader
-    command: --config-file=/prometheus.yml --log-level=debug --reload-url=http://prometheus:9090/-/reload
+    command: --config-file=/config/prometheus.yml --log-level=debug --reload-url=http://prometheus:9090/-/reload
     volumes:
-      - ./config/prometheus.yml:/prometheus.yml
+      - ./config/prometheus.yml:/config/prometheus.yml
+    restart: unless-stopped
+
+  blackbox-config-reloader:
+    image: ghcr.io/prometheus-operator/prometheus-config-reloader:main
+    container_name: blackbox_config_reloader
+    command: --config-file=/config/blackbox.yml --log-level=debug --reload-url=http://blackbox_exporter:9115/-/reload
+    volumes:
+      - ./config/blackbox.yml:/config/blackbox.yml
     restart: unless-stopped
 
   blackbox_exporter:
